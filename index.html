@@ -13,31 +13,17 @@
         <div class="logo-leaves">AI</div>
         <div>
           <h1>AI 農業經營大富翁</h1>
-          <p>從一位青農開始，經營你的智慧農業王國！</p>
+          <p>經營土地、判斷風險，打造智慧農業王國</p>
         </div>
       </section>
 
       <section class="status-bar" aria-label="玩家狀態列">
-        <div class="status-pill">
-          <span class="status-icon">金</span>
-          <small>資金</small>
-          <strong id="money">1,200,000</strong>
-        </div>
-        <div class="status-pill">
-          <span class="status-icon sprout">芽</span>
-          <small>聲望</small>
-          <strong id="reputation">350</strong>
-        </div>
-        <div class="status-pill">
-          <span class="status-icon heart">心</span>
-          <small>幸福度</small>
-          <strong id="happiness">80%</strong>
-        </div>
-        <div class="status-pill round-pill">
-          <span class="calendar-page" id="round">1</span>
-          <small>回合</small>
-          <strong>/ 30</strong>
-        </div>
+        <div class="status-pill"><span class="status-icon coin">金</span><small>資金</small><strong id="money">1,200,000</strong></div>
+        <div class="status-pill"><span class="status-icon sprout">聲</span><small>聲望</small><strong id="reputation">350</strong></div>
+        <div class="status-pill"><span class="status-icon leaf">續</span><small>永續</small><strong id="sustainability">55</strong></div>
+        <div class="status-pill"><span class="status-icon heart">幸</span><small>幸福度</small><strong id="happiness">80%</strong></div>
+        <div class="status-pill"><span class="status-icon risk">險</span><small>風險</small><strong id="risk">20</strong></div>
+        <div class="status-pill round-pill"><span class="calendar-page" id="round">1</span><small>回合</small><strong>/ 30</strong></div>
       </section>
     </header>
 
@@ -47,10 +33,23 @@
         <button id="guideBtn" class="wood-button">遊戲說明</button>
         <button id="characterBtn" class="wood-button">選擇角色</button>
         <button id="mapBtn" class="wood-button">臺灣地圖</button>
+
+        <section class="phase-panel">
+          <h2>每回合決策</h2>
+          <div class="decision-grid">
+            <button class="decision-button" data-action="equipment">投資設備</button>
+            <button class="decision-button" data-action="loan">申請貸款</button>
+            <button class="decision-button" data-action="land">購買土地</button>
+            <button class="decision-button" data-action="crop">升級作物</button>
+            <button class="decision-button wide" data-action="coach">啟動 AI 氣象教練</button>
+          </div>
+          <p id="phaseText">開局後，每回合擲骰前可執行 1 次決策。</p>
+        </section>
+
         <div class="mascot-card">
           <div class="farmer-avatar">農</div>
           <h2>阿澤青農</h2>
-          <p>Lv.3 青農新手</p>
+          <p>Lv.3 智慧農場主</p>
           <div class="xp-track"><span id="xpBar"></span></div>
           <small id="xpText">350 / 1000</small>
         </div>
@@ -59,19 +58,27 @@
       <section class="map-stage" aria-label="大型臺灣遊戲地圖">
         <div class="sea-decor decor-cloud cloud-a"></div>
         <div class="sea-decor decor-cloud cloud-b"></div>
+        <div class="sea-icon boat-a">船</div>
+        <div class="sea-icon fish-a">魚</div>
         <div class="compass">N</div>
         <div id="taiwanMap" class="taiwan-map">
           <div class="island">
             <div class="mountain m1"></div>
             <div class="mountain m2"></div>
             <div class="mountain m3"></div>
+            <div class="mountain m4"></div>
             <div class="forest f1"></div>
             <div class="forest f2"></div>
+            <div class="forest f3"></div>
             <div class="farm-field field-a"></div>
             <div class="farm-field field-b"></div>
             <div class="farm-field field-c"></div>
+            <div class="farm-field field-d"></div>
             <div class="city-block city-a"></div>
             <div class="city-block city-b"></div>
+            <div class="city-block city-c"></div>
+            <div class="coast-zone coast-a"></div>
+            <div class="leisure-farm leisure-a"></div>
           </div>
           <svg class="route-lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
             <path id="routePath" d="" />
@@ -79,14 +86,14 @@
         </div>
       </section>
 
-      <aside class="right-dock" aria-label="右側資訊">
+      <aside class="right-dock" aria-label="玩家資訊與骰子">
         <section class="player-panel panel">
           <h2>玩家資訊</h2>
           <div class="player-head">
             <div class="portrait">農</div>
             <div>
               <strong id="playerName">阿澤青農</strong>
-              <span id="playerLevel">Lv.3 青農新手</span>
+              <span id="playerLevel">Lv.3 智慧農場主</span>
             </div>
           </div>
         </section>
@@ -96,8 +103,9 @@
           <ul>
             <li><span>現金</span><strong id="assetCash">1,200,000</strong></li>
             <li><span>土地</span><strong id="assetLand">3 筆</strong></li>
-            <li><span>作物</span><strong id="assetCrops">5 種</strong></li>
+            <li><span>作物</span><strong id="assetCrops">5 級</strong></li>
             <li><span>貸款</span><strong id="assetLoan">200,000</strong></li>
+            <li><span>土地價值</span><strong id="landValue">720,000</strong></li>
           </ul>
         </section>
 
@@ -110,28 +118,30 @@
         </section>
 
         <section class="ai-panel panel">
-          <h2>AI 小幫手</h2>
+          <h2>AI 農業氣象教練</h2>
           <div class="bot-row">
             <div class="bot-face">AI</div>
-            <p id="aiAdvice">建議先累積資金，再投資高聲望農場。</p>
+            <p id="aiAdvice">建議先觀察風險，再決定是否擴張土地。</p>
           </div>
         </section>
       </aside>
     </main>
 
-    <section class="card-zone" aria-label="機會卡與命運卡">
-      <article class="event-card chance-card">
-        <h2>機會卡</h2>
-        <div id="chanceCardList" class="mini-card-list"></div>
+    <section class="card-zone" aria-label="事件卡與土地系統">
+      <article class="event-card land-card">
+        <h2>土地系統</h2>
+        <div id="landList" class="land-list"></div>
       </article>
       <article class="event-card current-card">
+        <div class="card-ribbon" id="eventType">準備階段</div>
         <h2 id="eventTitle">等待開局</h2>
-        <p id="eventDesc">按下開始遊戲，擲骰後會依照落點觸發機會卡、命運卡、農場事件或氣象事件。</p>
-        <strong id="eventEffect">準備經營你的農業王國</strong>
+        <p id="eventDesc">按下開始遊戲，擲骰後會依落點觸發分級事件卡。事件不會直接結算，必須選擇 A/B/C 處理方式。</p>
+        <strong id="eventEffect">目標：資金、聲望、永續與幸福度共同成長</strong>
+        <div id="choicePanel" class="choice-panel"></div>
       </article>
-      <article class="event-card fate-card">
-        <h2>命運卡</h2>
-        <div id="fateCardList" class="mini-card-list"></div>
+      <article class="event-card deck-card">
+        <h2>事件卡分級</h2>
+        <div id="deckList" class="deck-list"></div>
       </article>
     </section>
 
@@ -147,7 +157,7 @@
     <dialog id="infoDialog">
       <form method="dialog">
         <h2 id="dialogTitle">遊戲說明</h2>
-        <p id="dialogBody">按開始遊戲後擲骰，角色會沿著臺灣地圖節點前進。不同格子會觸發不同事件，請在 30 回合內累積資金、聲望與幸福度。</p>
+        <p id="dialogBody">按開始遊戲後，每回合可先做一次經營決策，再擲骰移動。事件發生後選擇 A/B/C 處理方式，影響資金、聲望、永續、幸福度、風險與土地價值。</p>
         <button class="dialog-close">知道了</button>
       </form>
     </dialog>
